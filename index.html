@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Cuántos departamentos puedes comprar? | Andrés Plaza</title>
+<meta name="description" content="Calcula cuántas unidades de inversión puedes comprar con tu renta, lo que ya tienes y tu ahorro. Estrategia multicrédito de Andrés Plaza.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Paleta premium burdeo (guía Estrategia Multicrédito) */
+  --wine: #6E1B2E;
+  --wine-deep: #4B1220;
+  --wine-ink: #3A0E19;
+  --wine-soft: #F2E4E4;
+  --wine-line: rgba(110, 27, 46, 0.16);
+  --gold: #B48C55;
+  --gold-soft: #F3E8D8;
+  --peach: #F6E8DC;
+  --cream: #F5F0E9;
+  --paper: #FFFFFF;
+  --ink: #2A1619;
+  --ink-soft: #5A474B;
+  --ink-mute: #8E7B7F;
+  --line: #E9E0D8;
+  --line-strong: #D9CCC3;
+  --alert: #A23B2A;
+
+  --display: 'Bricolage Grotesque', 'DM Sans', system-ui, sans-serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+
+  --shadow-sm: 0 1px 2px rgba(58, 14, 25, 0.04), 0 1px 3px rgba(58, 14, 25, 0.03);
+  --shadow-md: 0 6px 18px rgba(58, 14, 25, 0.06), 0 2px 6px rgba(58, 14, 25, 0.04);
+  --shadow-lg: 0 16px 40px rgba(58, 14, 25, 0.10), 0 4px 12px rgba(58, 14, 25, 0.05);
+  --shadow-wine: 0 10px 28px rgba(110, 27, 46, 0.28);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.5;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 28px 24px 80px;
+}
+
+/* === HEADER === */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 28px;
+  opacity: 0; animation: fade-in 0.8s var(--ease) forwards;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-mark {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: var(--wine);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--display); font-weight: 800; color: #fff; font-size: 15px; letter-spacing: -0.02em;
+}
+.brand-name { font-weight: 700; font-size: 14px; line-height: 1.1; }
+.brand-tagline { font-size: 11px; color: var(--ink-mute); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 3px; }
+.uf-ref { text-align: right; }
+.uf-ref-label { font-size: 10px; color: var(--ink-mute); letter-spacing: 0.08em; text-transform: uppercase; }
+.uf-ref-value { font-size: 13px; font-weight: 600; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+/* === HERO (estilo portada de la guía) === */
+.hero {
+  background: var(--wine-deep);
+  border-radius: 24px;
+  padding: 44px 40px 40px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+  opacity: 0; animation: fade-up 0.9s var(--ease) 0.1s forwards;
+}
+.hero::after {
+  content: ''; position: absolute; right: -120px; top: -120px;
+  width: 360px; height: 360px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(180, 140, 85, 0.18), transparent 65%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 18px;
+}
+.hero-title {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(34px, 6.4vw, 58px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  color: #FAF4EE;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  position: relative; z-index: 1;
+}
+.hero-rule { width: 64px; height: 3px; background: var(--gold); border-radius: 2px; margin-bottom: 18px; }
+.hero-sub { font-size: 17px; color: rgba(250, 244, 238, 0.86); max-width: 560px; line-height: 1.55; position: relative; z-index: 1; }
+
+/* === STEPS === */
+.steps-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
+.step-dot { flex: 1; height: 4px; background: var(--line); border-radius: 3px; overflow: hidden; position: relative; }
+.step-dot.complete { background: var(--wine); }
+.step-dot.active::after {
+  content: ''; position: absolute; inset: 0; background: var(--wine);
+  transform-origin: left; animation: slide-fill 0.6s var(--ease) forwards;
+}
+@keyframes slide-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.step-count { font-size: 12px; font-weight: 600; color: var(--ink-mute); margin-left: 8px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* === CARD === */
+.card {
+  background: var(--paper);
+  border-radius: 22px;
+  padding: 40px;
+  box-shadow: var(--shadow-md);
+}
+.card-eyebrow {
+  display: inline-block;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #fff; background: var(--wine);
+  padding: 6px 12px; border-radius: 100px;
+  margin-bottom: 16px;
+}
+.card-title {
+  font-family: var(--display); font-weight: 800;
+  font-size: clamp(26px, 4.2vw, 36px); line-height: 1.08; letter-spacing: -0.03em;
+  color: var(--wine); margin-bottom: 12px;
+}
+.card-desc { font-size: 15px; color: var(--ink-soft); margin-bottom: 30px; line-height: 1.6; max-width: 580px; }
+
+/* === FIELDS === */
+.field { margin-bottom: 26px; }
+.field:last-child { margin-bottom: 0; }
+.field-label { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.field-label-text { font-size: 14px; font-weight: 700; color: var(--ink); }
+.field-hint { font-size: 12px; color: var(--ink-mute); text-align: right; }
+.field-sub { font-size: 13px; color: var(--ink-mute); margin-top: 8px; line-height: 1.5; }
+
+.input-wrap { position: relative; display: flex; align-items: center; }
+.input-prefix {
+  position: absolute; left: 16px; font-size: 15px; font-weight: 600; color: var(--ink-mute);
+  pointer-events: none; transition: color 0.2s var(--ease);
+}
+.input-wrap:focus-within .input-prefix { color: var(--wine); }
+
+input[type="text"], input[type="tel"] {
+  width: 100%;
+  padding: 16px 16px 16px 34px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 14px;
+  font-family: var(--sans); font-size: 17px; font-weight: 600;
+  color: var(--ink); background: var(--paper);
+  font-variant-numeric: tabular-nums;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  -webkit-appearance: none; appearance: none;
+}
+input.no-prefix { padding-left: 16px; }
+input#telefono { padding-left: 66px; letter-spacing: 0.03em; }
+input:focus { outline: none; border-color: var(--wine); box-shadow: 0 0 0 4px var(--wine-soft); }
+input::placeholder { color: var(--ink-mute); opacity: 0.55; font-weight: 500; }
+
+.conditional { display: none; }
+.conditional.show { display: block; animation: fade-up 0.4s var(--ease) forwards; }
+
+/* === CHIPS === */
+.chip-group { display: grid; gap: 10px; }
+.chip-group.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.chip-group.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.chip-group.cols-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 600px) {
+  .chip-group.cols-4, .chip-group.cols-3 { grid-template-columns: repeat(2, 1fr); }
+}
+.chip {
+  padding: 15px 14px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 14px;
+  background: var(--paper);
+  cursor: pointer; text-align: left;
+  font-family: var(--sans);
+  transition: all 0.2s var(--ease);
+}
+.chip:hover { border-color: var(--wine); transform: translateY(-2px); }
+.chip.selected {
+  border-color: var(--wine); background: var(--wine-soft);
+  animation: chip-pop 0.35s var(--ease-spring);
+}
+@keyframes chip-pop { 50% { transform: scale(1.03); } }
+.chip-title { display: block; font-size: 14px; font-weight: 700; color: var(--ink); }
+.chip-sub { display: block; font-size: 11.5px; color: var(--ink-mute); margin-top: 2px; line-height: 1.35; }
+.chip.selected .chip-title { color: var(--wine); }
+
+/* === BOTONES === */
+.btn-row { display: flex; align-items: center; justify-content: space-between; margin-top: 34px; gap: 12px; }
+.btn {
+  font-family: var(--sans); font-size: 15px; font-weight: 700;
+  padding: 15px 26px; border-radius: 100px; border: none; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.2s var(--ease);
+}
+.btn-primary { background: var(--wine); color: #fff; box-shadow: var(--shadow-md); }
+.btn-primary:hover:not(:disabled) { background: var(--wine-deep); transform: translateY(-2px); box-shadow: var(--shadow-wine); }
+.btn-primary:disabled { background: var(--line); color: var(--ink-mute); box-shadow: none; cursor: not-allowed; }
+.btn-ghost { background: transparent; color: var(--ink-soft); padding: 15px 6px; }
+.btn-ghost:hover { color: var(--wine); }
+.btn svg { transition: transform 0.2s var(--ease); }
+.btn-primary:hover:not(:disabled) svg { transform: translateX(4px); }
+
+.step-pane { display: none; }
+.step-pane.active { display: block; animation: fade-up 0.45s var(--ease) forwards; }
+
+/* === LOADING === */
+.loading-state { text-align: center; padding: 70px 20px; }
+.loader {
+  width: 44px; height: 44px; margin: 0 auto 22px; border-radius: 50%;
+  border: 3px solid var(--wine-soft); border-top-color: var(--wine);
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { font-size: 14px; color: var(--ink-mute); }
+
+/* === RESULTADO === */
+.result-hero {
+  background: var(--wine-deep);
+  border-radius: 24px;
+  padding: 44px 40px;
+  margin-bottom: 18px;
+  color: #FAF4EE;
+  position: relative; overflow: hidden;
+}
+.result-hero::after {
+  content: ''; position: absolute; right: -100px; bottom: -140px;
+  width: 360px; height: 360px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(180, 140, 85, 0.2), transparent 65%);
+}
+.result-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.result-big { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; position: relative; z-index: 1; }
+.result-number {
+  font-family: var(--display); font-weight: 800;
+  font-size: clamp(72px, 15vw, 128px); line-height: 0.9; letter-spacing: -0.05em;
+}
+.result-unit { font-family: var(--display); font-weight: 700; font-size: clamp(22px, 4vw, 32px); letter-spacing: -0.02em; line-height: 1.1; }
+.result-rule { width: 56px; height: 3px; background: var(--gold); border-radius: 2px; margin: 22px 0 16px; }
+.result-label { font-size: 16px; color: rgba(250, 244, 238, 0.86); max-width: 560px; line-height: 1.55; position: relative; z-index: 1; }
+.result-label strong { color: #fff; }
+
+.metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px; }
+@media (max-width: 640px) { .metrics-row { grid-template-columns: 1fr; } }
+.metric { background: var(--paper); border-radius: 18px; padding: 22px 20px; box-shadow: var(--shadow-sm); }
+.metric-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 10px; }
+.metric-value { font-family: var(--display); font-weight: 800; font-size: 26px; letter-spacing: -0.03em; color: var(--wine); line-height: 1.05; font-variant-numeric: tabular-nums; }
+.metric-sub { font-size: 12.5px; color: var(--ink-mute); margin-top: 6px; line-height: 1.45; }
+
+.block {
+  background: var(--paper);
+  border-radius: 22px;
+  padding: 34px 36px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow-sm);
+}
+.block-title {
+  font-family: var(--display); font-weight: 800; font-size: 24px; letter-spacing: -0.025em; line-height: 1.15;
+  color: var(--wine); margin-bottom: 10px;
+}
+.block-text { font-size: 15px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 12px; }
+.block-text:last-child { margin-bottom: 0; }
+.block-text strong { color: var(--ink); }
+
+/* Tabla de estructuras */
+.structs { display: grid; gap: 10px; margin-top: 18px; }
+.struct {
+  display: grid; grid-template-columns: 1.3fr 0.7fr 1fr 1fr; gap: 12px; align-items: center;
+  padding: 16px 18px; border-radius: 14px; background: var(--cream); border: 1.5px solid transparent;
+}
+.struct.best { background: var(--paper); border-color: var(--gold); box-shadow: var(--shadow-sm); }
+.struct-name { font-weight: 700; font-size: 14px; color: var(--ink); }
+.struct-tag { display: inline-block; margin-top: 4px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+.struct-cell { display: flex; flex-direction: column; gap: 2px; }
+.struct-val { font-weight: 700; font-size: 15px; color: var(--ink); font-variant-numeric: tabular-nums; }
+.struct-val.units { font-family: var(--display); font-weight: 800; font-size: 22px; color: var(--wine); }
+.struct-lbl { font-size: 10.5px; color: var(--ink-mute); letter-spacing: 0.06em; text-transform: uppercase; }
+.struct-note { grid-column: 1 / -1; font-size: 12.5px; color: var(--ink-mute); margin-top: -2px; }
+@media (max-width: 640px) {
+  .struct { grid-template-columns: 1fr 1fr; }
+  .struct-name-cell { grid-column: 1 / -1; }
+}
+
+/* Cajas tipo guía */
+.box { border-radius: 16px; padding: 22px 24px; margin-bottom: 18px; }
+.box-blush { background: var(--wine-soft); }
+.box-peach { background: var(--peach); }
+.box-title { font-family: var(--display); font-weight: 800; font-size: 18px; letter-spacing: -0.02em; margin-bottom: 8px; }
+.box-blush .box-title { color: var(--wine); }
+.box-peach .box-title { color: var(--alert); }
+.box-text { font-size: 14.5px; color: var(--ink); line-height: 1.6; }
+.box-text strong { font-weight: 700; }
+
+/* Pasos para destrabar */
+.unlock-list { list-style: none; margin-top: 14px; display: grid; gap: 10px; }
+.unlock-list li {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: var(--cream); border-radius: 12px; padding: 14px 16px;
+  font-size: 14.5px; color: var(--ink); line-height: 1.5;
+}
+.unlock-num {
+  flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--wine-soft); color: var(--wine);
+  font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center;
+}
+
+/* CTA */
+.cta {
+  background: var(--wine); color: #fff; border-radius: 22px; padding: 30px 32px; margin-bottom: 18px;
+}
+.cta-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.cta-title { font-family: var(--display); font-weight: 800; font-size: clamp(22px, 4vw, 30px); letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 8px; }
+.cta-text { font-size: 15px; color: rgba(255, 255, 255, 0.86); line-height: 1.55; }
+.cta-text strong { color: #fff; }
+
+.disclaimer {
+  margin-top: 6px; padding: 16px 20px; border-radius: 14px;
+  background: rgba(255, 255, 255, 0.6); border-left: 3px solid var(--line-strong);
+  font-size: 12px; color: var(--ink-mute); line-height: 1.6;
+}
+
+.footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); text-align: center; font-size: 12px; color: var(--ink-mute); line-height: 1.6; }
+
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 640px) {
+  .container { padding: 18px 16px 60px; }
+  .hero { padding: 32px 24px 30px; border-radius: 20px; }
+  .card { padding: 28px 22px; border-radius: 18px; }
+  .result-hero { padding: 34px 24px; border-radius: 20px; }
+  .block { padding: 26px 22px; }
+  .cta { padding: 26px 22px; }
+}
+
+::selection { background: var(--wine-soft); color: var(--wine); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header class="header">
+    <div class="brand">
+      <div class="brand-mark">AP</div>
+      <div>
+        <div class="brand-name">Andrés Plaza</div>
+        <div class="brand-tagline">Estrategia multicrédito</div>
+      </div>
+    </div>
+    <div class="uf-ref">
+      <div class="uf-ref-label">UF hoy</div>
+      <div class="uf-ref-value" id="uf-display">—</div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-eyebrow">@andresplaza.cl</div>
+    <h1 class="hero-title">¿Cuántos deptos<br>puedes comprar?</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">Con tu renta, lo que ya tienes y tu ahorro, calcula cuántas unidades podrías poner a amortizar al mismo tiempo. Toma 2 minutos.</p>
+  </section>
+
+  <div class="steps-bar">
+    <div class="step-dot active" data-dot="1"></div>
+    <div class="step-dot" data-dot="2"></div>
+    <div class="step-dot" data-dot="3"></div>
+    <div class="step-dot" data-dot="4"></div>
+    <div class="step-dot" data-dot="5"></div>
+    <span class="step-count" id="step-count">01 / 05</span>
+  </div>
+
+  <div id="form-container">
+
+    <!-- PASO 1: RENTA -->
+    <div class="step-pane active" data-pane="1">
+      <div class="card">
+        <div class="card-eyebrow">Paso 1 · Tu renta</div>
+        <h2 class="card-title">¿Cuál es tu renta líquida mensual?</h2>
+        <p class="card-desc">Lo que te llega a la cuenta cada mes, después de descuentos. Si compras con tu pareja y ambos firman, suma las dos rentas.</p>
+
+        <div class="field">
+          <div class="field-label">
+            <span class="field-label-text">Renta líquida</span>
+            <span class="field-hint">Mensual · CLP</span>
+          </div>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input type="text" id="renta" inputmode="numeric" placeholder="2.500.000" autocomplete="off">
+          </div>
+          <p class="field-sub">Si tu sueldo es variable, usa el promedio de los últimos 12 meses.</p>
+        </div>
+
+        <div class="field">
+          <div class="field-label">
+            <span class="field-label-text">Tipo de contrato</span>
+          </div>
+          <div class="chip-group cols-4">
+            <button class="chip" data-contrato="indefinido" onclick="selectChip(this,'contrato')">
+              <span class="chip-title">Indefinido</span><span class="chip-sub">Sueldo fijo</span>
+            </button>
+            <button class="chip" data-contrato="plazo_fijo" onclick="selectChip(this,'contrato')">
+              <span class="chip-title">Plazo fijo</span><span class="chip-sub">Contrato a término</span>
+            </button>
+            <button class="chip" data-contrato="honorarios" onclick="selectChip(this,'contrato')">
+              <span class="chip-title">Honorarios</span><span class="chip-sub">Boletas</span>
+            </button>
+            <button class="chip" data-contrato="independiente" onclick="selectChip(this,'contrato')">
+              <span class="chip-title">Independiente</span><span class="chip-sub">Empresa propia</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <span></span>
+          <button class="btn btn-primary" onclick="showPane(2)" id="btn-1" disabled>Continuar <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 2: LO QUE YA TIENES -->
+    <div class="step-pane" data-pane="2">
+      <div class="card">
+        <div class="card-eyebrow">Paso 2 · Lo que ya tienes</div>
+        <h2 class="card-title">¿Cuántas propiedades tienes hoy?</h2>
+        <p class="card-desc">Tu primer depto no te frena: el arriendo que recibes también suma a tu renta.</p>
+
+        <div class="field">
+          <div class="chip-group cols-4">
+            <button class="chip" data-props="0" onclick="selectChip(this,'props')"><span class="chip-title">Ninguna</span><span class="chip-sub">Sería mi primera</span></button>
+            <button class="chip" data-props="1" onclick="selectChip(this,'props')"><span class="chip-title">1</span><span class="chip-sub">propiedad</span></button>
+            <button class="chip" data-props="2" onclick="selectChip(this,'props')"><span class="chip-title">2</span><span class="chip-sub">propiedades</span></button>
+            <button class="chip" data-props="3" onclick="selectChip(this,'props')"><span class="chip-title">3 o más</span><span class="chip-sub">propiedades</span></button>
+          </div>
+        </div>
+
+        <div class="conditional" id="props-detail">
+          <div class="field">
+            <div class="field-label">
+              <span class="field-label-text">Dividendos que pagas hoy</span>
+              <span class="field-hint">Suma de todos · CLP</span>
+            </div>
+            <div class="input-wrap">
+              <span class="input-prefix">$</span>
+              <input type="text" id="dividendos" inputmode="numeric" placeholder="450.000" autocomplete="off">
+            </div>
+            <p class="field-sub">Si alguna ya está pagada, no la cuentes. Si no tienes dividendos, déjalo en cero.</p>
+          </div>
+
+          <div class="field">
+            <div class="field-label">
+              <span class="field-label-text">Arriendo que recibes</span>
+              <span class="field-hint">Suma de todos · CLP</span>
+            </div>
+            <div class="input-wrap">
+              <span class="input-prefix">$</span>
+              <input type="text" id="arriendos" inputmode="numeric" placeholder="480.000" autocomplete="off">
+            </div>
+            <p class="field-sub">Lo que te pagan tus arrendatarios cada mes. Si vives en tu propiedad, déjalo en cero.</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field-label">
+            <span class="field-label-text">Otras deudas mensuales</span>
+            <span class="field-hint">Consumo, tarjetas, auto · CLP</span>
+          </div>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input type="text" id="deudas" inputmode="numeric" placeholder="0" autocomplete="off">
+          </div>
+          <p class="field-sub">Suma de las cuotas que pagas al mes, sin contar dividendos. Si no tienes, déjalo en cero.</p>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-ghost" onclick="showPane(1)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M3 8L8 3M3 8L8 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Volver</button>
+          <button class="btn btn-primary" onclick="showPane(3)" id="btn-2" disabled>Continuar <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 3: EDAD + AHORRO -->
+    <div class="step-pane" data-pane="3">
+      <div class="card">
+        <div class="card-eyebrow">Paso 3 · Tu ahorro</div>
+        <h2 class="card-title">Edad y ahorro para invertir</h2>
+        <p class="card-desc">Tu edad define el plazo del crédito. Tu ahorro define cuántos pies y gastos de cierre puedes cubrir al mismo tiempo.</p>
+
+        <div class="field">
+          <div class="field-label">
+            <span class="field-label-text">Tu edad</span>
+            <span class="field-hint">Años</span>
+          </div>
+          <input type="text" id="edad" class="no-prefix" inputmode="numeric" placeholder="35" autocomplete="off" maxlength="2">
+        </div>
+
+        <div class="field">
+          <div class="field-label">
+            <span class="field-label-text">Ahorro disponible para invertir</span>
+            <span class="field-hint">CLP</span>
+          </div>
+          <div class="input-wrap">
+            <span class="input-prefix">$</span>
+            <input type="text" id="ahorro" inputmode="numeric" placeholder="15.000.000" autocomplete="off">
+          </div>
+          <p class="field-sub">Plata que puedes destinar a pies y gastos de cierre. Si hoy no tienes, pon cero: hay proyectos con bono pie.</p>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-ghost" onclick="showPane(2)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M3 8L8 3M3 8L8 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Volver</button>
+          <button class="btn btn-primary" onclick="showPane(4)" id="btn-3" disabled>Continuar <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 4: CIUDAD -->
+    <div class="step-pane" data-pane="4">
+      <div class="card">
+        <div class="card-eyebrow">Paso 4 · Dónde</div>
+        <h2 class="card-title">¿Dónde quieres invertir?</h2>
+        <p class="card-desc">Concepción tiende a dar más flujo mensual. Santiago apuesta más a patrimonio y volumen de mercado. Muchos de mis clientes combinan ambas.</p>
+
+        <div class="field">
+          <div class="chip-group cols-3">
+            <button class="chip" data-ciudad="concepcion" onclick="selectChip(this,'ciudad')"><span class="chip-title">Concepción</span><span class="chip-sub">Flujo y rentabilidad</span></button>
+            <button class="chip" data-ciudad="santiago" onclick="selectChip(this,'ciudad')"><span class="chip-title">Santiago</span><span class="chip-sub">Patrimonio y plusvalía</span></button>
+            <button class="chip" data-ciudad="ambas" onclick="selectChip(this,'ciudad')"><span class="chip-title">Ambas</span><span class="chip-sub">Diversificar</span></button>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-ghost" onclick="showPane(3)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M3 8L8 3M3 8L8 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Volver</button>
+          <button class="btn btn-primary" onclick="showPane(5)" id="btn-4" disabled>Continuar <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 5: CONTACTO -->
+    <div class="step-pane" data-pane="5">
+      <div class="card">
+        <div class="card-eyebrow">Paso 5 · Tu resultado</div>
+        <h2 class="card-title">¿A quién le enviamos el resultado?</h2>
+        <p class="card-desc">Lo usamos para enviarte tu resultado y tener el contexto si después quieres revisar los números con nosotros.</p>
+
+        <div class="field">
+          <div class="field-label"><span class="field-label-text">Tu nombre</span></div>
+          <input type="text" id="nombre" class="no-prefix" placeholder="Nombre" autocomplete="given-name" style="font-weight:600;">
+        </div>
+
+        <div class="field">
+          <div class="field-label">
+            <span class="field-label-text">Celular</span>
+            <span class="field-hint">Chile · 8 dígitos</span>
+          </div>
+          <div class="input-wrap">
+            <span class="input-prefix">+56 9</span>
+            <input type="tel" id="telefono" inputmode="numeric" placeholder="1234 5678" autocomplete="tel-national">
+          </div>
+          <p class="field-sub">Solo mi equipo ve esta información. Nada de spam.</p>
+        </div>
+
+        <div class="field">
+          <div class="field-label">
+            <span class="field-label-text">¿Quieres que armemos la estrategia para tu caso?</span>
+            <span class="field-hint">Sin costo</span>
+          </div>
+          <div class="chip-group cols-2">
+            <button class="chip" data-llamada="si" onclick="selectChip(this,'llamada')"><span class="chip-title">Sí, que me contacten</span><span class="chip-sub">Revisamos tus números, bancos y orden de compra</span></button>
+            <button class="chip" data-llamada="no" onclick="selectChip(this,'llamada')"><span class="chip-title">Por ahora no</span><span class="chip-sub">Solo quiero ver mi resultado</span></button>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-ghost" onclick="showPane(4)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M3 8L8 3M3 8L8 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Volver</button>
+          <button class="btn btn-primary" onclick="submitForm()" id="btn-submit" disabled>Ver mi resultado <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-pane" data-pane="loading">
+      <div class="card"><div class="loading-state"><div class="loader"></div><div class="loading-text">Calculando cuántas unidades puedes poner a amortizar…</div></div></div>
+    </div>
+
+    <div class="step-pane" data-pane="result"><div id="result-content"></div></div>
+  </div>
+
+  <footer class="footer">
+    <p>Simulación referencial con parámetros de mercado 2026 (Banco Central, Minvu, CMF).</p>
+    <p style="margin-top:4px;">@andresplaza.cl · Eco Capital · PlazaBrokers</p>
+  </footer>
+</div>
+
+<script>
+// =========================================================================
+// CONFIGURACIÓN — todos los supuestos del cálculo viven aquí
+// =========================================================================
+const CONFIG = {
+  UF_FALLBACK: 40950,               // UF Minvu 17/09/2026. Se reemplaza por la UF del día si mindicador responde
+  UF_API: 'https://mindicador.cl/api/uf',
+
+  CARGA_FINANCIERA_MAX: 0.30,       // Dividendos + deudas ≤ 30% de la renta (criterio bancario estándar)
+  ARRIENDO_COMPUTABLE: 1.00,        // Andrés: el arriendo acreditado suma completo a la renta
+  EDAD_LIMITE: 75,                  // Edad + plazo no puede pasar de 75
+  PLAZO_MAX: 30,
+  PLAZO_MIN: 8,
+
+  // Tasas referenciales anuales en UF (promedio de mercado ~4% en 2026), sin subsidio
+  TASAS: { bono: 0.0455, 5: 0.0430, 10: 0.0405, 15: 0.0385 },
+  SEGUROS_ANUAL: 0.0025,            // Desgravamen + incendio/sismo, aprox. 0,25% anual sobre el saldo
+  REBAJA_SUBSIDIO: 0.01,            // Subsidio a la tasa + FOGAES: ~1 punto menos (Minvu 2026)
+  TOPE_SUBSIDIO_UF: 6000,
+
+  // Financiamiento del banco según estructura del pie
+  LTV: { bono: 1.00, 5: 0.95, 10: 0.90, 15: 0.85 },
+  ESTRUCTURAS: ['bono', '5', '10', '15'],
+
+  GASTOS_OPERACIONALES: 0.015,      // Notaría, CBR, tasación, estudio de títulos e impuesto de timbres ≈ 1,5% del crédito
+
+  MAX_UNIDADES: 3,                  // Tope práctico de compras simultáneas en una misma estrategia
+  TICKET_MIN_UF: 1900,              // Bajo esto no hay oferta de inversión que calce
+
+  // Ticket y arriendo de referencia por unidad
+  CIUDADES: {
+    concepcion: { nombre: 'Concepción', ticketUF: 2600, arriendo: 480000 },
+    santiago:   { nombre: 'Santiago',   ticketUF: 2700, arriendo: 450000 },
+    ambas:      { nombre: 'Concepción y Santiago', ticketUF: 2650, arriendo: 465000 }
+  },
+
+  MULT_CONTRATO: { indefinido: 1.00, plazo_fijo: 0.95, honorarios: 0.85, independiente: 0.85 },
+
+  SHEETS_URL: 'https://script.google.com/macros/s/AKfycbzQlNvJIRtDotsPQXeecG3D99QEYqC-jO_UNJbjUgjZylOioGqohLRrWQ7t0i-lwU2z/exec'
+};
+
+let UF = CONFIG.UF_FALLBACK;
+
+// =========================================================================
+// ESTADO
+// =========================================================================
+const state = {
+  renta: 0, contrato: null,
+  props: null, dividendos: 0, arriendos: 0, deudas: 0,
+  edad: 0, ahorro: 0, ahorroTocado: false,
+  ciudad: null,
+  nombre: '', telefono: '', llamada: null,
+  step: 1
+};
+
+// =========================================================================
+// FORMATEO
+// =========================================================================
+const fmtCLP = n => new Intl.NumberFormat('es-CL').format(Math.round(n));
+const fmtUF = n => new Intl.NumberFormat('es-CL', { maximumFractionDigits: 0 }).format(n);
+const fmtM = n => {
+  const m = n / 1e6;
+  return '$' + new Intl.NumberFormat('es-CL', { maximumFractionDigits: m < 10 ? 1 : 0 }).format(m) + ' M';
+};
+const parseNum = s => parseInt((s || '').replace(/\D/g, ''), 10) || 0;
+
+function normalizarTelefono(raw) {
+  let d = (raw || '').replace(/\D/g, '');
+  if (d.startsWith('56')) d = d.slice(2);
+  if (d.length > 8 && d.startsWith('9')) d = d.slice(1);
+  return d.slice(0, 8);
+}
+const fmtTel = d => d.length <= 4 ? d : d.slice(0, 4) + ' ' + d.slice(4);
+
+// =========================================================================
+// INPUTS
+// =========================================================================
+['renta', 'dividendos', 'arriendos', 'deudas', 'ahorro'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('input', e => {
+    const n = parseNum(e.target.value);
+    e.target.value = n > 0 ? fmtCLP(n) : (e.target.value.replace(/\D/g, '') === '0' ? '0' : '');
+    state[id] = n;
+    if (id === 'ahorro') state.ahorroTocado = e.target.value !== '';
+    validar();
+  });
+});
+
+document.getElementById('edad').addEventListener('input', e => {
+  const v = parseInt(e.target.value.replace(/\D/g, ''), 10) || 0;
+  e.target.value = v > 0 ? v : '';
+  state.edad = v;
+  validar();
+});
+
+document.getElementById('nombre').addEventListener('input', e => {
+  state.nombre = e.target.value.trim();
+  validar();
+});
+
+document.getElementById('telefono').addEventListener('input', e => {
+  state.telefono = normalizarTelefono(e.target.value);
+  e.target.value = fmtTel(state.telefono);
+  validar();
+});
+
+function selectChip(btn, key) {
+  document.querySelectorAll(`[data-${key}]`).forEach(c => c.classList.remove('selected'));
+  btn.classList.add('selected');
+  const v = btn.dataset[key];
+  state[key] = key === 'props' ? parseInt(v, 10) : v;
+  if (key === 'props') {
+    document.getElementById('props-detail').classList.toggle('show', state.props > 0);
+    if (state.props === 0) {
+      state.dividendos = 0; state.arriendos = 0;
+      document.getElementById('dividendos').value = '';
+      document.getElementById('arriendos').value = '';
+    }
+  }
+  validar();
+}
+
+function validar() {
+  document.getElementById('btn-1').disabled = !(state.renta >= 400000 && state.contrato);
+  document.getElementById('btn-2').disabled = state.props === null;
+  document.getElementById('btn-3').disabled = !(state.edad >= 18 && state.edad <= 70 && state.ahorroTocado);
+  document.getElementById('btn-4').disabled = !state.ciudad;
+  document.getElementById('btn-submit').disabled = !(state.nombre.length >= 2 && state.telefono.length === 8 && state.llamada);
+}
+
+function showPane(key) {
+  document.querySelectorAll('.step-pane').forEach(p => p.classList.remove('active'));
+  const t = document.querySelector(`.step-pane[data-pane="${key}"]`);
+  if (t) t.classList.add('active');
+  if (typeof key === 'number') {
+    state.step = key;
+    document.getElementById('step-count').textContent = `0${key} / 05`;
+    document.querySelectorAll('.step-dot').forEach(d => {
+      const s = parseInt(d.dataset.dot, 10);
+      d.classList.remove('active', 'complete');
+      if (s < key) d.classList.add('complete');
+      if (s === key) d.classList.add('active');
+    });
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// =========================================================================
+// MOTOR DE CÁLCULO
+// Lógica: cada banco evalúa tu crédito por separado con tu renta (incluido
+// el arriendo) y tus compromisos vigentes. Si el dividendo de una unidad
+// cabe en tu margen, la estrategia se replica en paralelo; el tope real es
+// tu ahorro para pies y gastos de cierre.
+// =========================================================================
+function cuota(principal, tasaAnual, meses) {
+  const r = tasaAnual / 12;
+  return principal * r / (1 - Math.pow(1 + r, -meses));
+}
+function principalDesdeCuota(div, tasaAnual, meses) {
+  const r = tasaAnual / 12;
+  return div * (1 - Math.pow(1 + r, -meses)) / r;
+}
+
+function calcular(s, uf) {
+  const ciudad = CONFIG.CIUDADES[s.ciudad];
+  const plazoAnios = Math.min(CONFIG.PLAZO_MAX, CONFIG.EDAD_LIMITE - s.edad);
+  const meses = plazoAnios * 12;
+
+  const rentaEfectiva = s.renta * (CONFIG.MULT_CONTRATO[s.contrato] || 1) + s.arriendos * CONFIG.ARRIENDO_COMPUTABLE;
+  const margen = rentaEfectiva * CONFIG.CARGA_FINANCIERA_MAX - s.dividendos - s.deudas;
+
+  const base = { plazoAnios, rentaEfectiva, margen, ciudad };
+
+  if (plazoAnios < CONFIG.PLAZO_MIN) return { ...base, unidades: 0, limitante: 'plazo', estructuras: [] };
+
+  const estructuras = CONFIG.ESTRUCTURAS.map(key => {
+    const ltv = CONFIG.LTV[key];
+    const tasa = CONFIG.TASAS[key] + CONFIG.SEGUROS_ANUAL;
+
+    // Ticket máximo que el margen permite por banco (tope en el ticket de referencia)
+    const creditoMaxCLP = margen > 0 ? principalDesdeCuota(margen, tasa, meses) : 0;
+    const ticketMaxUF = creditoMaxCLP / uf / ltv;
+    const ticketUF = Math.min(ciudad.ticketUF, ticketMaxUF);
+    const calzaDividendo = ticketUF >= CONFIG.TICKET_MIN_UF;
+
+    const ticketCLP = ticketUF * uf;
+    const creditoCLP = ticketCLP * ltv;
+    const dividendo = calzaDividendo ? cuota(creditoCLP, tasa, meses) : 0;
+    const pieCLP = ticketCLP * (1 - ltv);
+    const gastosCLP = creditoCLP * CONFIG.GASTOS_OPERACIONALES;
+    const cajaPorUnidad = pieCLP + gastosCLP;
+
+    const porAhorro = cajaPorUnidad > 0 ? Math.floor(s.ahorro / cajaPorUnidad) : CONFIG.MAX_UNIDADES;
+    const unidades = calzaDividendo ? Math.min(porAhorro, CONFIG.MAX_UNIDADES) : 0;
+
+    // Arriendo estimado de la unidad, proporcional al ticket
+    const arriendoUnidad = ciudad.arriendo * (ticketUF / ciudad.ticketUF);
+    const dividendoConSubsidio = calzaDividendo && ticketUF <= CONFIG.TOPE_SUBSIDIO_UF
+      ? cuota(creditoCLP, tasa - CONFIG.REBAJA_SUBSIDIO, meses) : null;
+
+    return {
+      key, ltv, tasa, ticketUF, ticketCLP, creditoCLP, dividendo, pieCLP, gastosCLP,
+      cajaPorUnidad, porAhorro, unidades, calzaDividendo, arriendoUnidad, dividendoConSubsidio,
+      faltaParaUna: calzaDividendo && unidades === 0 ? cajaPorUnidad - s.ahorro : 0
+    };
+  });
+
+  // Mejor estructura: más unidades; empate → menor aporte mensual de bolsillo
+  const ordenadas = [...estructuras].sort((a, b) => {
+    if (b.unidades !== a.unidades) return b.unidades - a.unidades;
+    const ga = a.unidades * (a.dividendo - a.arriendoUnidad);
+    const gb = b.unidades * (b.dividendo - b.arriendoUnidad);
+    return ga - gb;
+  });
+  const mejor = ordenadas[0];
+
+  let limitante = null;
+  if (mejor.unidades === 0) {
+    limitante = estructuras.some(e => e.calzaDividendo) ? 'ahorro' : 'dividendo';
+  } else if (mejor.unidades < CONFIG.MAX_UNIDADES) {
+    limitante = 'ahorro-parcial';
+  } else {
+    limitante = 'tope';
+  }
+
+  // Si el problema es el dividendo: cuánta renta o deuda haría calzar el ticket mínimo
+  let rentaFaltante = 0;
+  if (limitante === 'dividendo') {
+    const k = 'bono';
+    const tasa = CONFIG.TASAS[k] + CONFIG.SEGUROS_ANUAL;
+    const divMin = cuota(CONFIG.TICKET_MIN_UF * uf * CONFIG.LTV[k], tasa, meses);
+    const falta = divMin - margen;
+    rentaFaltante = falta / CONFIG.CARGA_FINANCIERA_MAX;
+  }
+
+  return { ...base, estructuras, mejor, unidades: mejor.unidades, limitante, rentaFaltante };
+}
+
+// =========================================================================
+// SUBMIT + SHEETS
+// =========================================================================
+async function submitForm() {
+  showPane('loading');
+  const r = calcular(state, UF);
+  enviarLead(r);
+  await new Promise(res => setTimeout(res, 1400));
+  render(r);
+  showPane('result');
+}
+
+function enviarLead(r) {
+  if (CONFIG.SHEETS_URL.startsWith('REEMPLAZAR')) return;
+  const m = r.mejor || {};
+  const payload = {
+    timestamp: new Date().toISOString(),
+    lead_magnet: 'UNIDADES',
+    nombre: state.nombre,
+    telefono: '+569' + state.telefono,
+    quiere_contacto: state.llamada === 'si',
+    renta: state.renta,
+    contrato: state.contrato,
+    propiedades: state.props === 3 ? '3+' : state.props,
+    dividendos_actuales: state.dividendos,
+    arriendos: state.arriendos,
+    deudas_consumo: state.deudas,
+    edad: state.edad,
+    ahorro: state.ahorro,
+    ciudad: state.ciudad,
+    margen_dividendo: Math.round(r.margen),
+    unidades: r.unidades,
+    estructura_sugerida: m.key || null,
+    ticket_uf: m.ticketUF ? Math.round(m.ticketUF) : null,
+    limitante: r.limitante,
+    avatar: state.props > 0 ? 'Rodrigo' : 'Matias'
+  };
+  fetch(CONFIG.SHEETS_URL, {
+    method: 'POST', mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(err => console.warn('Sheets:', err));
+}
+
+// =========================================================================
+// RENDER
+// =========================================================================
+const nombreEstructura = k => ({ bono: 'Bono pie', 5: 'Pie 5%', 10: 'Pie 10%', 15: 'Pie 15%' })[k];
+const notaEstructura = k => ({
+  bono: 'Solo en proyectos donde la inmobiliaria ofrece bono pie.',
+  5: 'Parte del pie lo cubre la inmobiliaria; tú pones el 5%.',
+  10: 'Pie mínimo con garantía estatal o bancos que financian 90%.',
+  15: 'Menos financiamiento, mejor tasa y menor dividendo.'
+})[k];
+
+function render(r) {
+  const c = document.getElementById('result-content');
+  const primera = state.props === 0;
+  const saludo = state.nombre ? state.nombre.split(' ')[0] + ', ' : '';
+
+  if (r.unidades === 0) { c.innerHTML = renderTodaviaNo(r, saludo); return; }
+
+  const m = r.mejor;
+  const n = r.unidades;
+  const divTotal = m.dividendo * n;
+  const arrTotal = m.arriendoUnidad * n;
+  const diferencia = divTotal - arrTotal;
+  const cajaTotal = m.cajaPorUnidad * n;
+  const unidadTxt = n === 1 ? (primera ? 'depto de inversión' : 'depto más') : (primera ? 'deptos de inversión' : 'deptos más');
+
+  c.innerHTML = `
+    <div class="result-hero" style="animation: fade-up 0.6s var(--ease) both;">
+      <div class="result-eyebrow">${saludo}tu capacidad hoy</div>
+      <div class="result-big">
+        <div class="result-number">${n}</div>
+        <div class="result-unit">${unidadTxt}<br>al mismo tiempo</div>
+      </div>
+      <div class="result-rule"></div>
+      <p class="result-label">
+        Con una estructura de <strong>${nombreEstructura(m.key).toLowerCase()}</strong>, en ${r.ciudad.nombre}, en unidades de unas <strong>${fmtUF(m.ticketUF)} UF</strong> cada una.
+        En total, <strong>${fmtUF(m.ticketUF * n)} UF</strong> en patrimonio a tu nombre amortizándose${primera ? '' : ', sumado a lo que ya tienes'}.
+      </p>
+    </div>
+
+    <div class="metrics-row" style="animation: fade-up 0.6s var(--ease) 0.1s both;">
+      <div class="metric">
+        <div class="metric-label">Dividendo por unidad</div>
+        <div class="metric-value">$${fmtCLP(m.dividendo)}</div>
+        <div class="metric-sub">${r.plazoAnios} años · tasa ref. ${((m.tasa - CONFIG.SEGUROS_ANUAL) * 100).toFixed(2).replace('.', ',')}% + seguros</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Arriendo estimado</div>
+        <div class="metric-value">$${fmtCLP(m.arriendoUnidad)}</div>
+        <div class="metric-sub">Por unidad en ${state.ciudad === 'ambas' ? 'promedio Conce-Stgo' : r.ciudad.nombre}</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Ahorro que usas</div>
+        <div class="metric-value">${fmtM(cajaTotal)}</div>
+        <div class="metric-sub">Pies + gastos de cierre de las ${n} unidad${n === 1 ? '' : 'es'}</div>
+      </div>
+    </div>
+
+    <div class="block" style="animation: fade-up 0.6s var(--ease) 0.2s both;">
+      <h3 class="block-title">Tus opciones según cómo estructures el pie</h3>
+      <p class="block-text">Con el mismo ahorro, la estructura cambia cuántas unidades puedes poner a trabajar. Cada banco evalúa tu crédito con tu renta, el arriendo que ya recibes y tus compromisos vigentes.</p>
+      <div class="structs">
+        ${r.estructuras.map(e => renderEstructura(e, m)).join('')}
+      </div>
+    </div>
+
+    <div class="box box-blush" style="animation: fade-up 0.6s var(--ease) 0.3s both;">
+      <div class="box-title">Quién paga cada mes</div>
+      <p class="box-text">
+        ${diferencia <= 0
+          ? `El arriendo estimado de tus ${n === 1 ? 'nueva unidad' : n + ' unidades'} (<strong>$${fmtCLP(arrTotal)}</strong>) cubre el dividendo (<strong>$${fmtCLP(divTotal)}</strong>). Tus arrendatarios pagan los intereses y van amortizando la deuda por ti.`
+          : `Tus arrendatarios aportan <strong>$${fmtCLP(arrTotal)}</strong> de los <strong>$${fmtCLP(divTotal)}</strong> de dividendo. Lo que pones tú, cerca de <strong>$${fmtCLP(diferencia)} al mes</strong>, no es gasto: es amortización pura, deuda que baja y patrimonio que queda a tu nombre.`}
+      </p>
+    </div>
+
+    ${m.dividendoConSubsidio ? `
+    <div class="box box-peach" style="animation: fade-up 0.6s var(--ease) 0.35s both; background: var(--gold-soft);">
+      <div class="box-title" style="color: var(--wine);">Esto puede mejorar</div>
+      <p class="box-text">Si la unidad es nueva, de hasta 6.000 UF, y tu caso califica al <strong>subsidio a la tasa + garantía estatal</strong> (vigente hasta el 31 de mayo de 2028), el dividendo podría bajar a cerca de <strong>$${fmtCLP(m.dividendoConSubsidio)}</strong> por unidad. No aplica igual a todos ni a todas las unidades: lo revisamos caso a caso.</p>
+    </div>` : ''}
+
+    ${renderSiguientePaso(r)}
+
+    ${renderCTA()}
+
+    <div class="disclaimer">
+      <strong style="color: var(--ink-soft);">Sobre estos números:</strong> simulación referencial, no es una preaprobación. Supuestos: carga financiera máxima de 30% de tu renta (incluido el arriendo que recibes), tasas promedio de mercado 2026 más ~0,25% de seguros, gastos de cierre estimados en 1,5% del crédito y UF del día. Cada banco aplica su propia evaluación, y el arriendo y la plusvalía son estimaciones, no garantías.
+    </div>
+  `;
+}
+
+function renderEstructura(e, mejor) {
+  const esMejor = e.key === mejor.key;
+  let unidadesTxt, nota;
+  if (!e.calzaDividendo) {
+    unidadesTxt = '—';
+    nota = 'Con tu margen actual de dividendo, esta estructura no calza.';
+  } else if (e.unidades === 0) {
+    unidadesTxt = '0';
+    nota = `Te faltan ~${fmtM(e.faltaParaUna)} de ahorro para la primera con esta estructura.`;
+  } else {
+    unidadesTxt = e.unidades;
+    nota = notaEstructura(e.key);
+  }
+  return `
+    <div class="struct ${esMejor ? 'best' : ''}">
+      <div class="struct-name-cell">
+        <div class="struct-name">${nombreEstructura(e.key)}</div>
+        ${esMejor ? '<span class="struct-tag">Tu mejor opción</span>' : ''}
+      </div>
+      <div class="struct-cell"><span class="struct-val units">${unidadesTxt}</span><span class="struct-lbl">Unidades</span></div>
+      <div class="struct-cell"><span class="struct-val">${e.calzaDividendo ? fmtM(e.cajaPorUnidad) : '—'}</span><span class="struct-lbl">Caja por unidad</span></div>
+      <div class="struct-cell"><span class="struct-val">${e.calzaDividendo ? '$' + fmtCLP(e.dividendo) : '—'}</span><span class="struct-lbl">Dividendo</span></div>
+      <div class="struct-note">${nota}</div>
+    </div>`;
+}
+
+function renderSiguientePaso(r) {
+  const m = r.mejor;
+  if (r.limitante === 'tope') {
+    return `
+      <div class="block">
+        <h3 class="block-title">Tu perfil da para una estrategia completa</h3>
+        <p class="block-text">Llegaste al máximo que mostramos en la calculadora (${CONFIG.MAX_UNIDADES} unidades simultáneas). Con tu renta y tu ahorro, lo que define cuántas unidades comprar y en qué orden ya no es la capacidad: es el plan, qué bancos, qué proyectos y qué beneficios usar en cada compra.</p>
+      </div>`;
+  }
+  // ahorro-parcial: cuánto falta para una unidad más
+  const faltaUna = m.cajaPorUnidad * (m.unidades + 1) - state.ahorro;
+  return `
+    <div class="block">
+      <h3 class="block-title">Lo que hoy te limita: el ahorro</h3>
+      <p class="block-text">Tu renta da para más: el dividendo calza en cada banco. Con unos <strong>${fmtM(Math.max(0, faltaUna))}</strong> más de ahorro, o eligiendo proyectos con bono pie, podrías sumar una unidad más a la misma estrategia.</p>
+    </div>`;
+}
+
+function renderTodaviaNo(r, saludo) {
+  let titulo, texto, pasos = [];
+
+  if (r.limitante === 'plazo') {
+    titulo = 'El plazo del crédito te queda corto';
+    texto = `A tu edad el plazo máximo sería de ${r.plazoAnios} años, y eso sube mucho el dividendo.`;
+    pasos = ['Sumar un codeudor más joven (pareja o familiar) alarga el plazo.', 'Un pie mayor reduce el crédito y el dividendo.', 'Revisamos tu caso específico: hay estructuras que sí funcionan.'];
+  } else if (r.limitante === 'ahorro') {
+    const mejorFalta = r.estructuras.filter(e => e.calzaDividendo).sort((a, b) => a.faltaParaUna - b.faltaParaUna)[0];
+    titulo = 'Tu renta sí da. Lo que falta es caja para partir';
+    texto = `El dividendo calza en tu margen; lo que no alcanza hoy es el ahorro para el pie y los gastos de cierre.`;
+    pasos = [
+      `Con unos <strong>${fmtM(mejorFalta.faltaParaUna)}</strong> más de ahorro ya podrías partir con ${nombreEstructura(mejorFalta.key).toLowerCase()}.`,
+      'Algunos proyectos incluyen bono pie y parte de los gastos de cierre: ahí la barrera baja mucho.',
+      state.props > 0 ? 'Si tu propiedad actual tiene plusvalía, hay formas de usarla para el siguiente paso.' : 'Ordenar el ahorro con una meta y una fecha cambia todo el plan.'
+    ];
+  } else {
+    titulo = 'Hoy tu margen de dividendo está copado';
+    texto = r.margen <= 0
+      ? 'Tus dividendos y deudas actuales ya ocupan el margen que el banco permite sobre tu renta.'
+      : `Con tu margen actual (unos $${fmtCLP(r.margen)} al mes) todavía no calza el dividendo de una unidad de inversión.`;
+    pasos = [];
+    if (state.deudas > 0) pasos.push(`Bajar o cerrar créditos de consumo libera margen rápido: cada $100.000 de cuota que eliminas suma $100.000 de dividendo posible.`);
+    if (state.props > 0 && state.arriendos === 0) pasos.push('Si arriendas la propiedad que ya tienes, ese arriendo suma a tu renta.');
+    if (r.rentaFaltante > 0) pasos.push(`Sumar unos <strong>$${fmtCLP(r.rentaFaltante)}</strong> de renta (por ejemplo, con un codeudor) haría calzar la primera unidad.`);
+    pasos.push('Revisamos tu caso: a veces el orden de las compras cambia el resultado.');
+  }
+
+  return `
+    <div class="result-hero" style="animation: fade-up 0.6s var(--ease) both;">
+      <div class="result-eyebrow">${saludo}análisis honesto</div>
+      <div class="result-big"><div class="result-unit" style="font-size: clamp(26px, 5vw, 40px); line-height: 1.05;">${titulo}</div></div>
+      <div class="result-rule"></div>
+      <p class="result-label">${texto} Esto no es un "no". Es un "todavía no", con camino.</p>
+    </div>
+
+    <div class="block">
+      <h3 class="block-title">Lo que te acerca a tu ${state.props === 0 ? 'primer' : 'siguiente'} depto</h3>
+      <ul class="unlock-list">
+        ${pasos.map((p, i) => `<li><span class="unlock-num">${i + 1}</span><span>${p}</span></li>`).join('')}
+      </ul>
+    </div>
+
+    ${renderCTA()}
+
+    <div class="disclaimer">
+      <strong style="color: var(--ink-soft);">Sobre estos números:</strong> simulación referencial con carga financiera máxima de 30% de tu renta, tasas promedio de mercado 2026 y UF del día. Cada banco tiene su propia evaluación: un caso que aquí no calza puede funcionar con otra estructura.
+    </div>
+  `;
+}
+
+function renderCTA() {
+  if (state.llamada === 'si') {
+    return `
+      <div class="cta">
+        <div class="cta-eyebrow">Tu siguiente paso</div>
+        <div class="cta-title">Te vamos a contactar</div>
+        <p class="cta-text">Alguien de mi equipo te escribe al <strong>+56 9 ${fmtTel(state.telefono)}</strong> para revisar tu caso: cuántas unidades, en qué orden, con qué bancos y qué beneficios aplican.</p>
+      </div>`;
+  }
+  return `
+    <div class="cta">
+      <div class="cta-eyebrow">Tu siguiente paso</div>
+      <div class="cta-title">Escríbeme «ESTRATEGIA» por DM</div>
+      <p class="cta-text">Si quieres que mi equipo y yo armemos la estrategia para tu caso, escríbeme por Instagram a <strong>@andresplaza.cl</strong> y te respondemos personalmente.</p>
+    </div>`;
+}
+
+// =========================================================================
+// INIT — UF del día
+// =========================================================================
+function pintarUF() { document.getElementById('uf-display').textContent = '$' + fmtCLP(UF); }
+pintarUF();
+fetch(CONFIG.UF_API)
+  .then(r => r.json())
+  .then(d => {
+    const v = d && d.serie && d.serie[0] && d.serie[0].valor;
+    if (v && v > 30000 && v < 60000) { UF = v; pintarUF(); }
+  })
+  .catch(() => {});
+
+if (typeof module !== 'undefined') module.exports = { calcular, CONFIG };
+</script>
+</body>
+</html>
